@@ -12,6 +12,6 @@ services:
       - key: GAIA_CORS_ORIGIN
         value: "https://memory-card-game-xi-navy.vercel.app"
       - key: GAIA_HUB_URL
-        value: "https://gaia-hub.onrender.com"
+        value: "https://gaia-hub-render.onrender.com"
       - key: GAIA_DOMAIN_NAME
-        value: "gaia-hub.onrender.com"
+        value: "gaia-hub-render.onrender.com"

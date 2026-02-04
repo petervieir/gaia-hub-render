@@ -12,4 +12,4 @@ RUN npm --prefix hub run build
 ENV GAIA_PORT=3000
 EXPOSE 3000
 
-CMD ["node", "hub/lib/server.js"]
+CMD ["node", "hub/lib/index.js"]

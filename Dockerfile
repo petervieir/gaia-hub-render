@@ -10,6 +10,7 @@ RUN npm --prefix hub install
 RUN npm --prefix hub run build
 
 ENV GAIA_PORT=3000
+ENV NODE_OPTIONS=--experimental-specifier-resolution=node
 EXPOSE 3000
 
 CMD ["node", "hub/lib/index.js"]

@@ -27,8 +27,15 @@ lines.splice(
 fs.writeFileSync(p, lines.join('\n'))
 NODE
 
+# ;; Create storage directory for disk driver
+RUN mkdir -p /gaia-storage && chmod 755 /gaia-storage
+
+# ;; Configure Gaia hub with disk driver
 ENV GAIA_PORT=3000
+ENV GAIA_DRIVER=disk
+ENV GAIA_DISK_STORAGE_ROOT_DIR=/gaia-storage
 ENV NODE_OPTIONS=--experimental-specifier-resolution=node
+
 EXPOSE 3000
 
 CMD ["node", "hub/lib/index.js"]

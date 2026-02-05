@@ -60,7 +60,7 @@ RUN mkdir -p /gaia-storage && chmod 755 /gaia-storage
 ENV GAIA_PORT=3000
 ENV GAIA_DRIVER=disk
 ENV GAIA_DISK_STORAGE_ROOT_DIR=/gaia-storage
-ENV GAIA_READ_URL=http://localhost:3000/
+ENV GAIA_READ_URL=http://localhost:3000
 ENV NODE_OPTIONS=--experimental-specifier-resolution=node
 
 EXPOSE 3000

@@ -44,8 +44,7 @@ lines.splice(
   0,
   "  // Serve stored files for disk driver",
   "  if (process.env.GAIA_DRIVER === 'disk' && process.env.GAIA_DISK_STORAGE_ROOT_DIR) {",
-  "    const express = await import('express');",
-  "    app.use(express.default.static(process.env.GAIA_DISK_STORAGE_ROOT_DIR));",
+  "    app.use(express.static(process.env.GAIA_DISK_STORAGE_ROOT_DIR));",
   "  }",
   ""
 )

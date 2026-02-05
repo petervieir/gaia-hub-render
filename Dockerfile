@@ -27,6 +27,32 @@ lines.splice(
 fs.writeFileSync(p, lines.join('\n'))
 NODE
 
+# ;; Patch http.ts to add static file serving for disk driver
+RUN node - <<'NODE'
+const fs = require('fs')
+const p = 'hub/lib/server/http.js'
+const src = fs.readFileSync(p, 'utf8')
+// Find the line with "return { app, server, driver, asyncMutex }"
+const lines = src.split('\n')
+const returnIdx = lines.findIndex(line => line.includes('return { app, server, driver'))
+if (returnIdx === -1) {
+  throw new Error('Unable to find return statement in http.js')
+}
+// Insert static file serving before the return
+lines.splice(
+  returnIdx,
+  0,
+  "  // Serve stored files for disk driver",
+  "  if (process.env.GAIA_DRIVER === 'disk' && process.env.GAIA_DISK_STORAGE_ROOT_DIR) {",
+  "    const express = await import('express');",
+  "    app.use(express.default.static(process.env.GAIA_DISK_STORAGE_ROOT_DIR));",
+  "  }",
+  ""
+)
+fs.writeFileSync(p, lines.join('\n'))
+console.log('Patched http.js to serve static files')
+NODE
+
 # ;; Create storage directory for disk driver
 RUN mkdir -p /gaia-storage && chmod 755 /gaia-storage
 
@@ -34,7 +60,7 @@ RUN mkdir -p /gaia-storage && chmod 755 /gaia-storage
 ENV GAIA_PORT=3000
 ENV GAIA_DRIVER=disk
 ENV GAIA_DISK_STORAGE_ROOT_DIR=/gaia-storage
-ENV GAIA_READ_URL=http://localhost:3000
+ENV GAIA_READ_URL=http://localhost:3000/
 ENV NODE_OPTIONS=--experimental-specifier-resolution=node
 
 EXPOSE 3000
